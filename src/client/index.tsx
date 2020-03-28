@@ -1,16 +1,14 @@
-import { hot, setConfig } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { BrowserRouter, StaticRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
 import { COLORS } from './config';
 import routes from './routes';
 import { ensureReady } from './utils';
-import { BrowserRouter, StaticRouter } from 'react-router-dom';
-// import * as serviceWorker from './serviceWorker';
-
-setConfig({
-  showReactDomPatchNotification: false,
-});
+import App from './App';
+import { store } from './store';
 
 const MUITheme = createMuiTheme({
   palette: {
@@ -23,13 +21,12 @@ const MUITheme = createMuiTheme({
   },
 });
 
-const App = () => <div>Cobaa</div>;
-const Coba = hot(module)(App);
-
 const generateAppComponent = () => {
   return (
     <MuiThemeProvider theme={MUITheme}>
-      <Coba />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </MuiThemeProvider>
   );
 };

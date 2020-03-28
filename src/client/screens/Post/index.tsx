@@ -6,12 +6,12 @@ const Container = styled.div`
   display: block;
 `;
 
-const LandingPage = () => {
+const Post = () => {
   return (
     <Container>
-      <div>LandingPage</div>
+      <div>Post</div>
     </Container>
   );
 };
 
-export default hot(LandingPage);
+export default hot(module)(Post);
