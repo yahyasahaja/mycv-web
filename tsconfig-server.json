@@ -1,0 +1,15 @@
+{   
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "outDir": "build/server"
+  },
+  "exclude": [
+    "./src/client/**",
+    "./src/server/renderer.tsx"
+  ],
+  "include": [
+    "./src/server",
+  ]
+}
