@@ -49,5 +49,5 @@ export const SOCIAL_MEDIA = [
 ];
 
 export const ABOUT_TEXT =
-  'Helo, my name is YahyaSahaja, 21 years old student that want to make a ' +
+  'Hello, my name is YahyaSahaja, 21 years old student that wants to make a ' +
   'positive impact for people around the world.';

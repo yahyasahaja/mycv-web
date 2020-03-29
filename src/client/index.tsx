@@ -4,11 +4,12 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { BrowserRouter, StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import { COLORS } from './config';
+import { COLORS, BASE_URL } from './config';
 import routes from './routes';
 import { ensureReady } from './utils';
 import App from './App';
 import { store } from './store';
+import axios from 'axios';
 
 const MUITheme = createMuiTheme({
   palette: {
@@ -20,6 +21,10 @@ const MUITheme = createMuiTheme({
     },
   },
 });
+
+axios.defaults.baseURL = BASE_URL;
+axios.defaults.headers['Accept'] = 'application/json';
+axios.defaults.headers['Content-Type'] = 'application/json';
 
 const generateAppComponent = () => {
   return (

@@ -1,7 +1,8 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
 import styled from 'styled-components';
-import Header from './Intro';
+import Intro from './Intro';
+import Posts from './Posts';
 
 const Container = styled.div`
   display: block;
@@ -10,7 +11,8 @@ const Container = styled.div`
 const Home = () => {
   return (
     <Container>
-      <Header />
+      <Intro />
+      <Posts />
     </Container>
   );
 };

@@ -3,10 +3,11 @@ import React from 'react';
 import { renderRoutes } from 'react-router-config';
 import styled, { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 import { RootState } from './store';
 import routes from './routes';
-import { MODE } from './theme';
+import { MODE, THEME_DARK } from './theme';
 import { backgroundImage, textColor } from './theme';
 import MagicWand from './components/MagicWand';
 
@@ -32,12 +33,25 @@ const App = () => {
     return state.themeState;
   });
 
+  let skeletonColor = '';
+  let highlightColor = '';
+
+  if (themeState.theme === THEME_DARK) {
+    skeletonColor = '#232323';
+    highlightColor = '#616161';
+  } else {
+    skeletonColor = '#d8d8d8';
+    highlightColor = '#e6e6e6';
+  }
+
   return (
     <ThemeProvider theme={{ [MODE]: themeState.theme }}>
-      <Container>
-        <MagicWand />
-        {renderRoutes(routes)}
-      </Container>
+      <SkeletonTheme color={skeletonColor} highlightColor={highlightColor}>
+        <Container>
+          <MagicWand />
+          {renderRoutes(routes)}
+        </Container>
+      </SkeletonTheme>
     </ThemeProvider>
   );
 };

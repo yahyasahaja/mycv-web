@@ -1,16 +1,11 @@
-export const header = [
+export const aboutTitle = [
   {
-    start: 400,
-    duration: '30vh',
+    start: 0,
+    startOffset: '0',
+    duration: '40vh',
     properties: [
       {
-        startValue: 50,
-        endValue: -50,
-        unit: '%',
-        property: 'translateY',
-      },
-      {
-        startValue: 0.5,
+        startValue: 4,
         endValue: 1,
         property: 'scale',
       },
@@ -21,46 +16,91 @@ export const header = [
       },
     ],
   },
+];
+
+export const postsTitle = [
   {
-    start: 400,
-    startOffset: '70vh',
-    duration: '30vh',
+    start: 0,
+    startOffset: '100vh',
+    duration: '40vh',
     properties: [
       {
-        startValue: -50,
-        endValue: -150,
-        unit: '%',
-        property: 'translateY',
+        startValue: 4,
+        endValue: 1,
+        property: 'scale',
       },
       {
-        startValue: 1,
-        endValue: 0.5,
-        property: 'scale',
+        startValue: 0,
+        endValue: 1,
+        property: 'opacity',
       },
     ],
   },
+];
+
+export const profilePhoto = [
   {
-    start: 400,
-    startOffset: '140vh',
-    duration: '30vh',
+    start: 0,
+    startOffset: '20vh',
+    duration: '40vh',
     properties: [
       {
         startValue: -150,
-        endValue: -230,
+        endValue: 0,
         unit: '%',
-        property: 'translateY',
+        property: 'translateX',
+      },
+      {
+        startValue: 0,
+        endValue: 1,
+        property: 'opacity',
+      },
+    ],
+  },
+];
+
+export const aboutText = [
+  {
+    start: 0,
+    startOffset: '20vh',
+    duration: '40vh',
+    properties: [
+      {
+        startValue: 150,
+        endValue: 0,
+        unit: '%',
+        property: 'translateX',
+      },
+      {
+        startValue: 0,
+        endValue: 1,
+        property: 'opacity',
+      },
+    ],
+  },
+];
+
+export const lineParallax = [
+  {
+    start: 'self',
+    duration: '80vh',
+    properties: [
+      {
+        startValue: 0,
+        endValue: 1,
+        property: 'scaleX',
       },
     ],
   },
   {
-    start: 400,
-    startOffset: '210vh',
-    duration: '30vh',
+    start: 'self',
+    startOffset: '60vh',
+    duration: '20vh',
     properties: [
       {
         startValue: 1,
         endValue: 0,
-        property: 'opacity',
+        property: 'scaleY',
       },
     ],
   },

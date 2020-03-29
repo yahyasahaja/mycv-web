@@ -4,6 +4,13 @@ import styled from 'styled-components';
 import FAIcon from '../../components/FAIcon';
 import { SOCIAL_MEDIA, ABOUT_TEXT } from '../../config';
 import { textColor, boxShadow } from '../../theme';
+import Plx from 'react-plx';
+import {
+  aboutTitle,
+  profilePhoto,
+  aboutText,
+  lineParallax,
+} from './introParallaxData';
 
 const Container = styled.div`
   display: block;
@@ -45,6 +52,7 @@ const Container = styled.div`
 
   .about {
     height: 100vh;
+    position: relative;
 
     .about-content {
       display: flex;
@@ -58,6 +66,8 @@ const Container = styled.div`
         overflow: hidden;
         box-shadow: ${boxShadow};
         border: 3px solid white;
+        transform: translateX(-150%);
+        opacity: 0;
 
         img {
           width: 100%;
@@ -71,6 +81,8 @@ const Container = styled.div`
         padding: 30px;
         border: 2px dashed ${textColor};
         border-radius: 20px;
+        transform: translateX(150%);
+        opacity: 0;
 
         .hand-wave {
           height: 41px;
@@ -81,6 +93,21 @@ const Container = styled.div`
             height: 100%;
           }
         }
+      }
+    }
+
+    .line-wrapper {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      bottom: 150px;
+      width: 100%;
+
+      .line-parallax {
+        width: 80%;
+        height: 5px;
+        background-color: ${textColor};
+        transform: scaleX(0);
       }
     }
   }
@@ -99,17 +126,22 @@ const Intro = () => {
         </div>
       </div>
       <div className="about">
-        <div className="title">About Me</div>
+        <Plx parallaxData={aboutTitle}>
+          <div className="title">Welcome</div>
+        </Plx>
         <div className="about-content">
-          <div className="profile-photo">
+          <Plx className="profile-photo" parallaxData={profilePhoto}>
             <img src="/images/myself.jpg" alt="profile" />
-          </div>
-          <div className="desc">
+          </Plx>
+          <Plx className="desc" parallaxData={aboutText}>
             <div className="hand-wave">
               <img src="/images/hand-wave.png" alt="hand-wave" />
             </div>
             {ABOUT_TEXT}
-          </div>
+          </Plx>
+        </div>
+        <div className="line-wrapper">
+          <Plx className="line-parallax" parallaxData={lineParallax} />
         </div>
       </div>
     </Container>

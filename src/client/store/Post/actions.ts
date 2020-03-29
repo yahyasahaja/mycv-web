@@ -19,7 +19,22 @@ export type PostsThunk<ReturnType = void> = ThunkAction<
   PostActionTypes
 >;
 
+export const setPost = (post: Post): PostActionTypes => {
+  return {
+    type: SET_POST,
+    post,
+  };
+};
+
+export const setPosts = (posts: Post[]): PostActionTypes => {
+  return {
+    type: SET_POSTS,
+    posts,
+  };
+};
+
 export const fetchPostsAction = (): PostsThunk => async (dispatch) => {
+  console.log('woi');
   try {
     dispatch({
       type: SET_FETCHING_STATE,
@@ -44,10 +59,8 @@ export const fetchPostsAction = (): PostsThunk => async (dispatch) => {
       };
     });
 
-    return dispatch({
-      type: SET_POSTS,
-      posts,
-    });
+    console.log(posts);
+    dispatch(setPosts(posts));
   } catch (err) {
     console.log('ERROR WHILE FETCHING POSTS', err);
   } finally {
@@ -94,10 +107,7 @@ export const fetchPostAction = (id: string): PostsThunk => async (
     const postState = getState().postState;
 
     if (postFromLocal) {
-      dispatch({
-        type: SET_POST,
-        post: postFromLocal,
-      });
+      dispatch(setPost(postFromLocal));
     }
 
     if (!postState.post) {
@@ -112,10 +122,7 @@ export const fetchPostAction = (id: string): PostsThunk => async (
     const { data: post } = await fetchPost(id);
 
     await setPostToLocal(post);
-    return dispatch({
-      type: SET_POST,
-      post,
-    });
+    dispatch(setPost(post));
   } catch (err) {
     console.log('ERROR WHILE FETCHING POST', err);
   } finally {
