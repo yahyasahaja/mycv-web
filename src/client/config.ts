@@ -1,3 +1,10 @@
+import {
+  faGithub,
+  faGitlab,
+  faLinkedin,
+  faInstagram,
+  faFacebook,
+} from '@fortawesome/free-brands-svg-icons';
 export const BASE_URL: string = 'https://api.cv.ngopi.men';
 export const COLORS = {
   primary: '#3498db',
@@ -17,3 +24,30 @@ export default {
   LOCAL_POST_MAP_URI,
   PATHS,
 };
+
+export const SOCIAL_MEDIA = [
+  {
+    icon: faLinkedin,
+    link: 'https://linkedin.com/in/yahyasahaja',
+  },
+  {
+    icon: faGithub,
+    link: 'https://github.com/yahyasahaja',
+  },
+  {
+    icon: faGitlab,
+    link: 'https://gitlab.com/yahyasahaja',
+  },
+  {
+    icon: faFacebook,
+    link: 'https://facebook.com/yahyasahaja5',
+  },
+  {
+    icon: faInstagram,
+    link: 'https://instagram.com/yahyasahaja',
+  },
+];
+
+export const ABOUT_TEXT =
+  'Helo, my name is YahyaSahaja, 21 years old student that want to make a ' +
+  'positive impact for people around the world.';

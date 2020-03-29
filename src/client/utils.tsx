@@ -1,10 +1,14 @@
 import { matchRoutes, RouteConfig } from 'react-router-config';
 import { AsyncComponentWrapper } from './components/AsyncComponent';
 
+export const useWindow = (windowProperty): any => {
+  if (typeof window !== 'undefined') return window[windowProperty];
+};
+
 export const ensureReady = (routeConfig: RouteConfig[], location?: string) => {
   const matches = matchRoutes(
     routeConfig,
-    location || window.location.pathname
+    location || useWindow('location')?.pathname
   );
 
   return Promise.all(

@@ -26,18 +26,15 @@ export default function serverRenderer(options): express.RequestHandler {
       .toString();
   }
 
-  console.log('ke sini?');
-
   return async (req, res) => {
-    console.log('woi');
-    const ReactComponent = await renderOnServer(req.url);
+    const ReactComponent = await renderOnServer(req.baseUrl);
     const materialUISheets = new ServerStyleSheets();
     const styledSheets = new ServerStyleSheet();
     const result = renderToString(
       styledSheets.collectStyles(materialUISheets.collect(ReactComponent))
     );
     const cssStrig = materialUISheets.toString();
-    console.log(result);
+    // console.log(result);
     const html = template
       .toString()
       .replace('{{content}}', result)

@@ -1,6 +1,12 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import { Configuration, optimize } from 'webpack';
+import createStyledComponentsTransformer from 'typescript-plugin-styled-components';
+
+const styledComponentsTransformer = createStyledComponentsTransformer({
+  minify: true,
+  ssr: true,
+});
 
 const serverConfig: Configuration = {
   context: __dirname,
@@ -36,6 +42,9 @@ const serverConfig: Configuration = {
             options: {
               transpileOnly: true,
               happyPackMode: true,
+              getCustomTransformers: () => ({
+                before: [styledComponentsTransformer],
+              }),
             },
           },
         ],

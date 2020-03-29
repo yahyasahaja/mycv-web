@@ -3,7 +3,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import React from 'react';
 import styled from 'styled-components';
 //COMPONENT
-import { SnackbarContext } from '../contexts/SnackbarContext';
 import { RouteConfigComponentProps } from 'react-router-config';
 
 const PageLoading = styled.div`
@@ -36,7 +35,6 @@ export const generateAsyncComponent: AsyncComponentFunctionType = (
   ) => {
     const [Comp, setComponent] = React.useState<any>(null);
     const [loading, setLoading] = React.useState(true);
-    const snackbarContext = React.useContext(SnackbarContext);
 
     React.useEffect(() => {
       setLoading(true);
@@ -48,10 +46,9 @@ export const generateAsyncComponent: AsyncComponentFunctionType = (
             setComponent(() => Component);
           }
         } catch (err) {
-          if (snackbarContext.show)
-            snackbarContext.show('Error loading page, please refresh page', {
-              severity: 'error',
-            });
+          if (typeof window !== 'undefined') {
+            window.alert('Error loading page, please refresh page');
+          }
           console.log('ERROR WHILE LOADING PAGE ROUTE', err);
         }
       };

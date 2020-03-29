@@ -1,6 +1,7 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
 import styled from 'styled-components';
+import Header from './Intro';
 
 const Container = styled.div`
   display: block;
@@ -9,7 +10,7 @@ const Container = styled.div`
 const Home = () => {
   return (
     <Container>
-      <div>Home</div>
+      <Header />
     </Container>
   );
 };
