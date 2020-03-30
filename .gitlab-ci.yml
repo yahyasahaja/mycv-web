@@ -46,4 +46,5 @@ Deploy to Production:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - rsync -rav build ubuntu@54.255.249.17:mycv-web
+    - ssh ubuntu@3.0.20.181 "cd mycv-web && git fetch origin master && git reset --hard origin/master && yarn"
+    - rsync -rav build ubuntu@3.0.20.181:mycv-web
