@@ -5,9 +5,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
+import './fonts';
 import { RootState } from './store';
 import routes from './routes';
-import { MODE, THEME_DARK } from './theme';
+import { MODE, THEME_DARK, LIGHT_COLOR } from './theme';
 import { backgroundImage, textColor } from './theme';
 import MagicWand from './components/MagicWand';
 
@@ -18,6 +19,7 @@ setConfig({
 const Container = styled.div`
   display: block;
   background: ${backgroundImage};
+  background-color: ${LIGHT_COLOR};
   color: ${textColor};
   font-family: 'Open Sans', sans-serif;
   font-size: 12pt;

@@ -7,10 +7,16 @@ import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
 import clientConfig from '../../webpack.client.dev';
 import serverConfig from '../../webpack.server.renderer';
 import compression from 'compression';
+import { setupAPIMiddleware } from './api';
+import routes from '../client/routes';
+import { generateStaticRoutes } from './utils';
 
 const app = express();
 app.use(compression());
 app.use('/', express.static(config.staticPath));
+setupAPIMiddleware(app);
+
+const staticRoutes = generateStaticRoutes(routes);
 
 if (config.isDev) {
   serverConfig.mode = 'development';
@@ -31,13 +37,14 @@ if (config.isDev) {
   );
 
   app.use(
-    '*',
+    staticRoutes,
     webpackHotServerMiddleware(compiler, {
       serverRendererOptions: {
         clientCompiler: compiler.compilers[0],
       },
     })
   );
+  redirectRoute();
 
   let started = false;
   console.log('Compiling and starting server ...');
@@ -51,9 +58,15 @@ if (config.isDev) {
   serverConfig.mode = 'production';
   const serverRenderer = require('./renderer').default;
   // tslint:enable:no-var-requires
-  console.log(serverRenderer());
-  app.use(serverRenderer());
+  app.use(staticRoutes, serverRenderer());
+  redirectRoute();
   startServer();
+}
+
+function redirectRoute() {
+  app.use('*', (req, res) => {
+    res.redirect('/home');
+  });
 }
 
 function startServer() {

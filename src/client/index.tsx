@@ -8,8 +8,9 @@ import { COLORS, BASE_URL } from './config';
 import routes from './routes';
 import { ensureReady } from './utils';
 import App from './App';
-import { store } from './store';
+import { store, RootState, createNewStore } from './store';
 import axios from 'axios';
+import { Store } from 'redux';
 
 const MUITheme = createMuiTheme({
   palette: {
@@ -29,26 +30,42 @@ axios.defaults.headers['Content-Type'] = 'application/json';
 const generateAppComponent = () => {
   return (
     <MuiThemeProvider theme={MUITheme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </MuiThemeProvider>
   );
 };
 
 if (typeof window !== 'undefined') {
+  const stringState = document.getElementById('state')?.innerHTML;
+  let preloadedState: RootState | undefined = undefined;
+  let serverStore: Store | undefined = undefined;
+
+  try {
+    const parsedProps = JSON.parse(stringState || '');
+    preloadedState = parsedProps;
+    serverStore = createNewStore(preloadedState);
+  } catch (err) {
+    preloadedState = undefined;
+  }
+
   ensureReady(routes).then(() => {
     ReactDOM.hydrate(
-      <BrowserRouter>{generateAppComponent()}</BrowserRouter>,
+      <BrowserRouter>
+        <Provider store={serverStore || store}>
+          {generateAppComponent()}
+        </Provider>
+      </BrowserRouter>,
       document.getElementById('root')
     );
   });
 }
 
-export const renderOnServer = (location: string) => {
+export const renderOnServer = (location: string, serverStore?: Store) => {
   return ensureReady(routes, location).then(() => (
-    <StaticRouter location={location} context={{}}>
-      {generateAppComponent()}
-    </StaticRouter>
+    <Provider store={serverStore || store}>
+      <StaticRouter location={location} context={{}}>
+        {generateAppComponent()}
+      </StaticRouter>
+    </Provider>
   ));
 };

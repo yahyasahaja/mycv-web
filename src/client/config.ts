@@ -1,10 +1,5 @@
-import {
-  faGithub,
-  faGitlab,
-  faLinkedin,
-  faInstagram,
-  faFacebook,
-} from '@fortawesome/free-brands-svg-icons';
+import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
+
 export const BASE_URL: string = 'https://api.cv.ngopi.men';
 export const COLORS = {
   primary: '#3498db',
@@ -25,25 +20,36 @@ export default {
   PATHS,
 };
 
-export const SOCIAL_MEDIA = [
+type SocialMediaProp = {
+  prefix: IconPrefix;
+  icon: IconName;
+  link: string;
+};
+
+export const SOCIAL_MEDIA: SocialMediaProp[] = [
   {
-    icon: faLinkedin,
+    prefix: 'fab',
+    icon: 'linkedin',
     link: 'https://linkedin.com/in/yahyasahaja',
   },
   {
-    icon: faGithub,
+    prefix: 'fab',
+    icon: 'github',
     link: 'https://github.com/yahyasahaja',
   },
   {
-    icon: faGitlab,
+    prefix: 'fab',
+    icon: 'gitlab',
     link: 'https://gitlab.com/yahyasahaja',
   },
   {
-    icon: faFacebook,
+    prefix: 'fab',
+    icon: 'facebook',
     link: 'https://facebook.com/yahyasahaja5',
   },
   {
-    icon: faInstagram,
+    prefix: 'fab',
+    icon: 'instagram',
     link: 'https://instagram.com/yahyasahaja',
   },
 ];

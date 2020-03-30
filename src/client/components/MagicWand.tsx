@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { faMagic } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { textColor } from '../theme';
@@ -36,7 +35,7 @@ const MagicWand = () => {
 
   return (
     <Container onClick={toggleThemeCallback}>
-      <FontAwesomeIcon icon={faMagic} />
+      <FontAwesomeIcon icon="magic" />
     </Container>
   );
 };

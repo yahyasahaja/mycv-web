@@ -5,12 +5,6 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import createStyledComponentsTransformer from 'typescript-plugin-styled-components';
-
-const styledComponentsTransformer = createStyledComponentsTransformer({
-  minify: true,
-  ssr: true,
-});
 
 const clientProductionConfig: Configuration = {
   context: __dirname,
@@ -26,8 +20,8 @@ const clientProductionConfig: Configuration = {
     publicPath: '/',
   },
   performance: {
-    maxAssetSize: 512000,
-    maxEntrypointSize: 512000,
+    maxAssetSize: 712000,
+    maxEntrypointSize: 712000,
   },
   optimization: {
     runtimeChunk: 'single',
@@ -60,9 +54,10 @@ const clientProductionConfig: Configuration = {
             options: {
               transpileOnly: true,
               happyPackMode: true,
-              getCustomTransformers: () => ({
-                before: [styledComponentsTransformer],
-              }),
+              getCustomTransformers: path.join(
+                __dirname,
+                './webpack.ts-transformers.ts'
+              ),
             },
           },
         ],

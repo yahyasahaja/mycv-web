@@ -2,15 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="Yahya Sahaja"
       content="Yahya Sahaja's website portfolio"
     />
-    <link rel="apple-touch-icon" href="logo192.png" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="https://yahya.ngopi.men">
     <title>Yahya Sahaja</title>
     <style>.material-ui{margin:0}</style>
     <style>
@@ -24,6 +25,7 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+        background: #323232;
       }
 
       a, a:visited{
@@ -35,7 +37,7 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script id="props" type="application/json">{{props}}</script>
+    <script id="state" type="application/json">{{state}}</script>
     <div id="root">{{content}}</div>
   </body>
 </html>

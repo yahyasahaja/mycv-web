@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 import { textColor } from '../theme';
 
 const Icon = styled.a`
@@ -23,17 +23,18 @@ const Icon = styled.a`
 `;
 
 type Props = {
-  icon: IconDefinition;
+  icon: IconName;
   link: string;
+  prefix: IconPrefix;
 };
 
 const FAIcon = (props: Props) => {
-  const { icon, link = '' } = props;
+  const { icon, prefix, link = '' } = props;
   return (
     <Icon href={link} target="_blank">
-      <FontAwesomeIcon icon={icon} />
+      <FontAwesomeIcon icon={[prefix, icon]} />
     </Icon>
   );
 };
 
-export default FAIcon;
+export default React.memo(FAIcon);

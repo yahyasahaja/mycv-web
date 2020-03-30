@@ -1,14 +1,8 @@
 import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import createStyledComponentsTransformer from 'typescript-plugin-styled-components';
 import { HotModuleReplacementPlugin, Configuration } from 'webpack';
 import path from 'path';
-
-const styledComponentsTransformer = createStyledComponentsTransformer({
-  minify: true,
-  ssr: true,
-});
 
 const clientDevelopmentConfig: Configuration = {
   context: __dirname, // to automatically find tsconfig.json
@@ -42,9 +36,10 @@ const clientDevelopmentConfig: Configuration = {
             options: {
               transpileOnly: true,
               happyPackMode: true,
-              getCustomTransformers: () => ({
-                before: [styledComponentsTransformer],
-              }),
+              getCustomTransformers: path.join(
+                __dirname,
+                './webpack.ts-transformers.ts'
+              ),
             },
           },
         ],

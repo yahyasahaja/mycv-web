@@ -4,17 +4,12 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFacebook,
-  faTwitter,
-  faGoogle,
-} from '@fortawesome/free-brands-svg-icons';
 import ProjectDetailsSkeleton from '../../components/ProjectDetailsSkeleton';
 import { fetchPostAction } from '../../store/Post/actions';
 import { RouteComponentProps } from 'react-router-dom';
-import { backgroundImage } from '../../theme';
+import { backgroundImage, textColor, backgroundColor } from '../../theme';
 import { useWindow } from '../../utils';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import ReactHtmlParser from 'react-html-parser';
 
 const Container = styled.div`
   display: block;
@@ -105,16 +100,18 @@ const Container = styled.div`
       height: 50px;
       justify-content: center;
       align-items: center;
-      border: #19bc9c solid 1px;
+      border: solid 1px ${textColor};
       margin: 5px;
       border-radius: 50px;
       text-decoration: none !important;
       transition: 0.3s;
       font-size: 18px;
-      color: #19bc9c;
+      color: ${textColor};
     }
     a:hover {
-      color: white;
+      color: ${backgroundColor};
+      background: ${textColor};
+      transition: 0.3s;
     }
 
     .social-media-button {
@@ -122,21 +119,6 @@ const Container = styled.div`
         transition: 0.03s;
         opacity: 0.3;
       }
-    }
-    .fb:hover {
-      background: #003ac1;
-      border-color: #003ac1;
-      transition: 0.3s;
-    }
-    .tw:hover {
-      background: #19cdd0;
-      border-color: #19cdd0;
-      transition: 0.3s;
-    }
-    .gp:hover {
-      background: #ab2323;
-      border-color: #ab2323;
-      transition: 0.3s;
     }
   }
 `;
@@ -151,6 +133,7 @@ export type PathParamsType = {
 
 const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
   const postState = useSelector((state: RootState) => state.postState);
+  const originState = useSelector((state: RootState) => state.originState);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -160,9 +143,8 @@ const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
   }, []);
 
   function renderContent() {
-    if (postState.isFetchingPost) return <ProjectDetailsSkeleton />;
-    if (!postState.post) return <div className="not-found">Not Found</div>;
-    const link = `${window.location.href}`;
+    if (!postState.post) return <ProjectDetailsSkeleton />;
+    const link = originState.origin;
 
     return (
       <>
@@ -173,7 +155,7 @@ const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faFacebook} />
+            <FontAwesomeIcon icon={['fab', 'facebook']} />
           </a>
           <a
             className="social-media-button tw"
@@ -181,7 +163,7 @@ const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faTwitter} />
+            <FontAwesomeIcon icon={['fab', 'twitter']} />
           </a>
           <a
             className="social-media-button gp"
@@ -189,16 +171,15 @@ const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faGoogle} />
+            <FontAwesomeIcon icon={['fab', 'google']} />
           </a>
         </div>
 
         <div className="wrapper">
           <h1 className="title">{postState.post.title}</h1>
-          <p
-            className="content"
-            dangerouslySetInnerHTML={{ __html: postState.post.content }}
-          />
+          <div className="content">
+            {ReactHtmlParser(postState.post.content)}
+          </div>
         </div>
       </>
     );
@@ -215,7 +196,7 @@ const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
           } else props.history.goBack();
         }}
       >
-        <FontAwesomeIcon icon={faTimes} />
+        <FontAwesomeIcon icon="times" />
       </div>
       {renderContent()}
     </Container>

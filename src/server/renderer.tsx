@@ -1,4 +1,4 @@
-import express from 'express';
+import { RequestHandler } from 'express';
 import { renderToString } from 'react-dom/server';
 import { renderOnServer } from '../client';
 import { Compiler } from 'webpack';
@@ -7,8 +7,20 @@ import { config } from './configs';
 import fs from 'fs';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import { ServerStyleSheet } from 'styled-components';
+import { Store } from 'redux';
+import { setOrigin } from '../client/store/Origin/actions';
+import url from 'url';
 
-export default function serverRenderer(options): express.RequestHandler {
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    interface Request {
+      store: Store;
+    }
+  }
+}
+
+export default function serverRenderer(options): RequestHandler {
   let template = '';
 
   if (config.isDev) {
@@ -27,17 +39,30 @@ export default function serverRenderer(options): express.RequestHandler {
   }
 
   return async (req, res) => {
-    const ReactComponent = await renderOnServer(req.baseUrl);
+    const urlobj = url.parse(req.originalUrl);
+    urlobj.protocol = req.protocol;
+    urlobj.host = req.get('host') || '';
+    const requrl = url.format(urlobj);
+    req.store?.dispatch(setOrigin(requrl));
+
+    const serverState = req.store?.getState();
+    const ReactComponent = await renderOnServer(
+      req.baseUrl,
+      req.store as Store
+    );
     const materialUISheets = new ServerStyleSheets();
     const styledSheets = new ServerStyleSheet();
     const result = renderToString(
       styledSheets.collectStyles(materialUISheets.collect(ReactComponent))
     );
     const cssStrig = materialUISheets.toString();
-    // console.log(result);
     const html = template
       .toString()
       .replace('{{content}}', result)
+      .replace(
+        '{{state}}',
+        serverState ? JSON.stringify(req.store.getState()) : '{}'
+      )
       .replace('.material-ui{margin:0}', cssStrig)
       .replace('</head>', `${styledSheets.getStyleTags()}</head>`);
     res.send(html);

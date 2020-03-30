@@ -35,6 +35,7 @@ const Posts = () => {
   const postState = useSelector((state: RootState) => {
     return state.postState;
   });
+
   React.useEffect(() => {
     dispatch(fetchPostsAction());
   }, []);
@@ -50,7 +51,7 @@ const Posts = () => {
           return <ProjectCard post={post} key={i} />;
         })}
       </div>
-      {postState.isFetchingPosts && (
+      {postState.isFetchingPosts && postState.posts.length === 0 && (
         <div className="skeletons">
           <ProjectSkeleton />
           <ProjectSkeleton />

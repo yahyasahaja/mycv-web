@@ -1,8 +1,8 @@
-import React from 'react';
+// import React from 'react';
 import { generateAsyncComponent } from './components/AsyncComponent';
 import { RouteConfig } from 'react-router-config';
 import { PATHS } from './config';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 
 // ROUTERS
 const Home = generateAsyncComponent(() =>
@@ -22,11 +22,11 @@ const Routers: RouteConfig[] = [
     component: Post,
     path: PATHS.POST,
   },
-  {
-    // eslint-disable-next-line react/display-name
-    component: () => <Redirect from="/" to={PATHS.HOME} />,
-    path: '/',
-  },
+  // {
+  //   // eslint-disable-next-line react/display-name
+  //   component: () => <Redirect from="/" to={PATHS.HOME} />,
+  //   path: '/',
+  // },
 ];
 
 export default Routers;

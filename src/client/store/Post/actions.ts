@@ -11,6 +11,7 @@ import {
 import { fetchPost, fetchPosts } from '../../repository';
 import localforage from 'localforage';
 import { LOCAL_POST_MAP_URI } from '../../config';
+import { hasWindow } from '../../utils';
 
 export type PostsThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -34,7 +35,6 @@ export const setPosts = (posts: Post[]): PostActionTypes => {
 };
 
 export const fetchPostsAction = (): PostsThunk => async (dispatch) => {
-  console.log('woi');
   try {
     dispatch({
       type: SET_FETCHING_STATE,
@@ -59,7 +59,6 @@ export const fetchPostsAction = (): PostsThunk => async (dispatch) => {
       };
     });
 
-    console.log(posts);
     dispatch(setPosts(posts));
   } catch (err) {
     console.log('ERROR WHILE FETCHING POSTS', err);
@@ -103,7 +102,7 @@ export const fetchPostAction = (id: string): PostsThunk => async (
   getState
 ) => {
   try {
-    const postFromLocal = await getPostFromLocal(id);
+    const postFromLocal = hasWindow() ? await getPostFromLocal(id) : null;
     const postState = getState().postState;
 
     if (postFromLocal) {
@@ -121,7 +120,7 @@ export const fetchPostAction = (id: string): PostsThunk => async (
 
     const { data: post } = await fetchPost(id);
 
-    await setPostToLocal(post);
+    if (hasWindow()) await setPostToLocal(post);
     dispatch(setPost(post));
   } catch (err) {
     console.log('ERROR WHILE FETCHING POST', err);
