@@ -1,8 +1,6 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import { Configuration, optimize } from 'webpack';
-import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 const serverConfig: Configuration = {
   context: __dirname,

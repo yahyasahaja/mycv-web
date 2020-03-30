@@ -6,7 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "dev": "yarn clean && cross-env NODE_ENV=development yarn watch:server",
-    "build": "yarn clean && npm-run-all --parallel build:server:renderer build:server build:client",
+    "build": "yarn clean && npm-run-all --parallel build:server build:client",
     "build:client": "webpack --config ./webpack.client.prod.ts --mode=production",
     "lint": "eslint -c .eslintrc.json --ext .ts src",
     "watch:server": "nodemon",
