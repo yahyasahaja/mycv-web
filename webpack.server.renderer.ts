@@ -1,11 +1,12 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import { Configuration, optimize } from 'webpack';
+import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 const serverConfig: Configuration = {
   context: __dirname,
   name: 'server',
-  mode: 'development',
   externals: [nodeExternals()],
   entry: ['./src/server/renderer.tsx'],
   target: 'node',
@@ -23,22 +24,13 @@ const serverConfig: Configuration = {
       {
         test: /\.(ts|tsx)$/,
         use: [
-          { loader: 'cache-loader' },
-          {
-            loader: 'thread-loader',
-            options: {
-              workers: require('os').cpus().length - 1,
-              poolTimeout: Infinity,
-            },
-          },
           {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
-              happyPackMode: true,
               getCustomTransformers: path.join(
                 __dirname,
-                './webpack.ts-transformers.ts'
+                './webpack.ts-transformers.js'
               ),
             },
           },

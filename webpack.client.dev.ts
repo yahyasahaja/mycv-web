@@ -23,22 +23,13 @@ const clientDevelopmentConfig: Configuration = {
       {
         test: /\.(ts|tsx)$/,
         use: [
-          { loader: 'cache-loader' },
-          {
-            loader: 'thread-loader',
-            options: {
-              workers: require('os').cpus().length - 1,
-              poolTimeout: Infinity,
-            },
-          },
           {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
-              happyPackMode: true,
               getCustomTransformers: path.join(
                 __dirname,
-                './webpack.ts-transformers.ts'
+                './webpack.ts-transformers.js'
               ),
             },
           },
@@ -64,13 +55,6 @@ const clientDevelopmentConfig: Configuration = {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      eslint: true,
-    }),
-    new ForkTsCheckerNotifierWebpackPlugin({
-      title: 'TypeScript',
-      excludeWarnings: false,
-    }),
     new HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '/public/template.html'),

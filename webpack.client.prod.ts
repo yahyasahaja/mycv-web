@@ -41,22 +41,13 @@ const clientProductionConfig: Configuration = {
         test: /\.(ts|tsx)$/,
         exclude: /(node_modules)/,
         use: [
-          { loader: 'cache-loader' },
-          {
-            loader: 'thread-loader',
-            options: {
-              workers: require('os').cpus().length - 1,
-              poolTimeout: Infinity,
-            },
-          },
           {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
-              happyPackMode: true,
               getCustomTransformers: path.join(
                 __dirname,
-                './webpack.ts-transformers.ts'
+                './webpack.ts-transformers.js'
               ),
             },
           },
@@ -77,13 +68,6 @@ const clientProductionConfig: Configuration = {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      eslint: true,
-    }),
-    new ForkTsCheckerNotifierWebpackPlugin({
-      title: 'TypeScript',
-      excludeWarnings: false,
-    }),
     new CopyWebpackPlugin([{ from: './public' }]),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',

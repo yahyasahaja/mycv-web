@@ -2,7 +2,6 @@ const createStyledComponentsTransformer = require('typescript-plugin-styled-comp
   .default;
 
 const styledComponentsTransformer = createStyledComponentsTransformer({
-  minify: true,
   ssr: true,
   displayName: true,
 });
