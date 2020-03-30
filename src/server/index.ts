@@ -10,11 +10,13 @@ import compression from 'compression';
 import { setupAPIMiddleware } from './api';
 import routes from '../client/routes';
 import { generateStaticRoutes } from './utils';
+import { checkUserAgentMiddleware } from './UserAgent';
 
 const app = express();
 app.use(compression());
 app.use('/', express.static(config.staticPath));
 setupAPIMiddleware(app);
+checkUserAgentMiddleware(app);
 
 const staticRoutes = generateStaticRoutes(routes);
 

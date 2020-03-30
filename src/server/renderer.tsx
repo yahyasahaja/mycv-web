@@ -45,6 +45,8 @@ export default function serverRenderer(options): RequestHandler {
     const requrl = url.format(urlobj);
     req.store?.dispatch(setOrigin(requrl));
 
+    console.log(req.get('host'));
+
     const serverState = req.store?.getState();
     const ReactComponent = await renderOnServer(
       req.baseUrl,
