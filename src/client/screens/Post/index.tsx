@@ -10,6 +10,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { backgroundImage, textColor, backgroundColor } from '../../theme';
 import { useWindow } from '../../utils';
 import ReactHtmlParser from 'react-html-parser';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
   display: block;
@@ -148,6 +149,10 @@ const Post = (props: RouteComponentProps<ParamsType, any, PathParamsType>) => {
 
     return (
       <>
+        <Helmet>
+          <title>{`${postState.post.title} - Yahya Sahaja Portfolio`}</title>
+          <meta name="description" content={postState.post.truncatedContent} />
+        </Helmet>
         <div className="share">
           <a
             className="social-media-button fb"

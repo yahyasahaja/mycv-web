@@ -116,7 +116,7 @@ const ProjectCard = (props: Props) => {
 
       <div className="details">
         <div className="card-title">{post.title}</div>
-        <div className="text">{post.content}</div>
+        <div className="text">{post.textContent}</div>
       </div>
     </Container>
   );

@@ -4,6 +4,8 @@ export interface Post {
   image_url: string;
   title: string;
   content: string;
+  textContent: string;
+  truncatedContent: string;
 }
 
 export interface PostMap {

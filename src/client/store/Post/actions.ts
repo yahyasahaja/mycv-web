@@ -11,7 +11,7 @@ import {
 import { fetchPost, fetchPosts } from '../../repository';
 import localforage from 'localforage';
 import { LOCAL_POST_MAP_URI } from '../../config';
-import { hasWindow } from '../../utils';
+import { hasWindow, truncateText, processPost } from '../../utils';
 
 export type PostsThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -45,19 +45,7 @@ export const fetchPostsAction = (): PostsThunk => async (dispatch) => {
 
     const { data } = await fetchPosts();
 
-    const posts: Post[] = (data as Post[]).map((post: Post) => {
-      const reg = /\ssrc=(?:(?:'([^']*)')|(?:"([^"]*)")|([^\s]*))/i;
-      const imgs = reg.exec(post.content);
-      let image_url;
-      if (imgs) if (imgs.length > 0) image_url = imgs[1] || imgs[2] || imgs[3];
-
-      return {
-        id: post.id,
-        image_url,
-        title: post.title,
-        content: post.content.replace(/(<([^>]+)>)/gi, ''),
-      };
-    });
+    const posts: Post[] = (data as Post[]).map(processPost);
 
     dispatch(setPosts(posts));
   } catch (err) {
@@ -118,7 +106,9 @@ export const fetchPostAction = (id: string): PostsThunk => async (
       });
     }
 
-    const { data: post } = await fetchPost(id);
+    const { data } = await fetchPost(id);
+
+    const post = processPost(data as Post);
 
     if (hasWindow()) await setPostToLocal(post);
     dispatch(setPost(post));

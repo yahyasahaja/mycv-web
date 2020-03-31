@@ -10,6 +10,7 @@ import { ServerStyleSheet } from 'styled-components';
 import { Store } from 'redux';
 import { setOrigin } from '../client/store/Origin/actions';
 import url from 'url';
+import { Helmet } from 'react-helmet';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -45,13 +46,12 @@ export default function serverRenderer(options): RequestHandler {
     const requrl = url.format(urlobj);
     req.store?.dispatch(setOrigin(requrl));
 
-    console.log(req.get('host'));
-
     const serverState = req.store?.getState();
     const ReactComponent = await renderOnServer(
       req.baseUrl,
       req.store as Store
     );
+    const helmet = Helmet.renderStatic();
     const materialUISheets = new ServerStyleSheets();
     const styledSheets = new ServerStyleSheet();
     const result = renderToString(
@@ -66,6 +66,8 @@ export default function serverRenderer(options): RequestHandler {
         serverState ? JSON.stringify(req.store.getState()) : '{}'
       )
       .replace('.material-ui{margin:0}', cssStrig)
+      .replace('<head>', `<head>${helmet.meta.toString()}`)
+      .replace('<head>', `<head>${helmet.title.toString()}`)
       .replace('</head>', `${styledSheets.getStyleTags()}</head>`);
     res.send(html);
     res.end();
