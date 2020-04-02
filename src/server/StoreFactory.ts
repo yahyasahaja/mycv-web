@@ -21,6 +21,10 @@ class StoreFactory {
     await this.store.dispatch<any>(fetchPostAction(id));
   };
 
+  public recreateStore() {
+    this.store = createNewStore();
+  }
+
   public static getInstance(): StoreFactory {
     if (!this.instance) {
       this.instance = new StoreFactory();

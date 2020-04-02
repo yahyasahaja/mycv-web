@@ -59,7 +59,6 @@ if (config.isDev) {
 } else {
   serverConfig.mode = 'production';
   const serverRenderer = require('./renderer').default;
-  // tslint:enable:no-var-requires
   app.use(staticRoutes, serverRenderer());
   redirectRoute();
   startServer();

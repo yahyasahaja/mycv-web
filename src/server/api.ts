@@ -13,17 +13,21 @@ declare global {
 }
 
 export const setupAPIMiddleware = (app: Application) => {
+  app.use((req: Request, res: any, next: NextFunction) => {
+    StoreFactory.getInstance().recreateStore();
+    req.store = StoreFactory.getInstance().store as Store;
+    next();
+  })
+
   app.use(PATHS.HOME, async (req: Request, res: any, next: NextFunction) => {
     const store = StoreFactory.getInstance();
     await store.fetchPosts();
-    if (!req.store) req.store = StoreFactory.getInstance().store as Store;
     next();
   });
 
   app.use(PATHS.POST, async (req: Request, res: any, next: NextFunction) => {
     const store = StoreFactory.getInstance();
     await store.fetchPost(req.params.id);
-    if (!req.store) req.store = StoreFactory.getInstance().store as Store;
     next();
   });
 };
